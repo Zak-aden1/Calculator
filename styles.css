@@ -1,19 +1,26 @@
 * {
   box-sizing: border-box;
   font-weight: normal;
-}
-
-body {
   padding: 0;
   margin: 0;
-  background: linear-gradient(to right, #00aaff, #00ff6c);
+  background: #6C63FF;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 10vh;
+}
+.header h1 {
+  font-size: 4rem;
 }
 
 .calculator-grid {
   display: grid;
   justify-content: center;
   align-content: center;
-  min-height: 100vh;
+  min-height: 85vh;
   grid-template-columns: repeat(4, 100px);
   grid-template-rows: minmax(120px, auto) repeat(5, 100px);
 }
