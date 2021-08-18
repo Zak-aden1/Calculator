@@ -15,6 +15,11 @@
 .header h1 {
   font-size: 4rem;
 }
+.header .fa-calculator {
+  font-size: 3rem;
+  margin-left: 40px;
+  color: white;
+}
 
 .calculator-grid {
   display: grid;
