@@ -6,169 +6,151 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var numberButtons = document.querySelectorAll([".number"]);
-var operatorButtons = document.querySelectorAll(".orange"); // console.log(button);
-
-var currentAnswer = document.querySelector(".answer");
-var prevAnswer = document.querySelector('.prev');
-var equalButton = document.querySelector('.equal');
-var delButton = document.querySelector('.del');
+var numberButtons = document.querySelectorAll('.number');
+var operationButtons = document.querySelectorAll('.operation');
+var equalsButton = document.querySelector('.equals');
+var deleteButton = document.querySelector('.delete');
 var acButton = document.querySelector('.all-clear');
+var previousOperation = document.querySelector('.previousOperation');
+var currentOperation = document.querySelector('.currentOperation');
 
 var Calculator =
 /*#__PURE__*/
 function () {
-  function Calculator(currentAnswer, prevAnswer) {
+  function Calculator(previousOperation, currentOperation) {
     _classCallCheck(this, Calculator);
 
-    this.currentAnswer = currentAnswer;
-    this.prevAnswer = prevAnswer;
+    this.previousOperation = previousOperation;
+    this.currentOperation = currentOperation;
     this.clear();
   }
 
   _createClass(Calculator, [{
     key: "clear",
     value: function clear() {
-      this.currentOper = "";
-      this.prevOper = "";
+      this.currentOperand = '';
+      this.previousOperand = '';
       this.operation = undefined;
     }
   }, {
     key: "delete",
-    value: function _delete() {}
-  }, {
-    key: "append",
-    value: function append(number) {
-      if (number === '.' && this.currentOper.includes('.')) return;
-      this.currentOper = this.currentOper.toString() + number.toString();
+    value: function _delete() {
+      this.currentOperand = this.currentOperand.toString().slice(0, -1);
     }
   }, {
-    key: "chooseOrange",
-    value: function chooseOrange(operation) {
-      if (this.currentOper === '') return;
+    key: "appendNumber",
+    value: function appendNumber(number) {
+      if (number === '.' && this.currentOperand.includes('.')) return;
+      this.currentOperand = this.currentOperand.toString() + number.toString();
+    }
+  }, {
+    key: "pickOperation",
+    value: function pickOperation(operation) {
+      if (this.currentOperand === '') return;
 
-      if (this.prevAnswer !== '') {
+      if (this.previousOperand !== '') {
         this.compute();
       }
 
       this.operation = operation;
-      this.prevOper = this.currentOper;
-      this.currentOper = '';
+      this.previousOperand = this.currentOperand;
+      this.currentOperand = '';
     }
   }, {
     key: "compute",
     value: function compute() {
-      var theResults;
-      var previously = parseFloat(this.prevOper);
-      var currently = parseFloat(this.currentOper);
-      if (previously == '' || currently == '') return;
+      var results;
+      var prev = parseFloat(this.previousOperand);
+      var current = parseFloat(this.currentOperand);
+      if (isNaN(prev) || isNaN(current)) return;
 
       switch (this.operation) {
         case '+':
-          theResults = previously + currently;
+          results = prev + current;
           break;
 
         case '-':
-          theResults = previously + currently;
+          results = prev - current;
           break;
 
         case '*':
-          theResults = previously * currently;
+          results = prev * current;
           break;
 
         case '÷':
-          theResults = previously / currently;
+          results = prev / current;
           break;
 
         default:
-          return;
+          break;
       }
 
-      this.currentOper = theResults;
+      this.currentOperand = results;
       this.operation = undefined;
-      this.prevOper = '';
+      this.previousOperand = '';
+    }
+  }, {
+    key: "getDisplayNumber",
+    value: function getDisplayNumber(number) {
+      var stringNumber = number.toString();
+      var integerDigits = parseFloat(stringNumber.split('.')[0]);
+      var decimalDigits = stringNumber.split('.')[1];
+      var integerDisplay;
+
+      if (isNaN(integerDigits)) {
+        integerDisplay = '';
+      } else {
+        integerDisplay = integerDigits.toLocaleString('en', {
+          maximumFractionDigits: 0
+        });
+      }
+
+      if (decimalDigits != null) {
+        return "".concat(integerDisplay, ".").concat(decimalDigits);
+      } else {
+        return integerDisplay;
+      }
     }
   }, {
     key: "updateDisplay",
     value: function updateDisplay() {
-      this.currentAnswer.innerText = this.currentOper;
-      this.prevAnswer.innerText = this.prevOper;
+      this.currentOperation.innerHTML = this.getDisplayNumber(this.currentOperand);
+
+      if (this.operation != null) {
+        this.previousOperation.innerText = "".concat(this.getDisplayNumber(this.previousOperand), " ").concat(this.operation);
+      } else {
+        this.previousOperation.innerText = '';
+      } // this.previousOperation.innerHTML = this.previousOperand
+
     }
   }]);
 
   return Calculator;
 }();
 
-var calculator = new Calculator(currentAnswer, prevAnswer);
+var calculator = new Calculator(previousOperation, currentOperation);
 numberButtons.forEach(function (button) {
   button.addEventListener('click', function () {
-    calculator.append(button.innerText);
+    calculator.appendNumber(button.innerText);
     calculator.updateDisplay();
   });
 });
-operatorButtons.forEach(function (button) {
+operationButtons.forEach(function (button) {
   button.addEventListener('click', function () {
-    calculator.chooseOrange(button.innerText);
+    console.log(button.innerText);
+    calculator.pickOperation(button.innerText);
     calculator.updateDisplay();
   });
 });
-equalButton.addEventListener('click', function (button) {
+deleteButton.addEventListener('click', function () {
+  calculator["delete"]();
+  calculator.updateDisplay();
+});
+equalsButton.addEventListener('click', function () {
   calculator.compute();
   calculator.updateDisplay();
 });
-acButton.addEventListener('click', function (button) {
+acButton.addEventListener('click', function () {
   calculator.clear();
-}); // let value = 0;
-// let resultOne = ""
-// let resultTwo = ""
-// const calculator = new calculator(currentAnswer)
-// numberButtons.forEach((button) => {
-//     button.addEventListener("click", (e) => {
-//         // calculator.appendNumber(button.innerText)
-//         // if (!currentAnswer) {
-//         //     currentAnswer.innerText = 0
-//         // }
-//         // let inputMulti = currentAnswer
-//         // inputMulti.innerHTML = e.target.innerHTML
-//         // this.inputMulti = this.currentAnswer.toString() + e.target.innerHTML.toString()
-//         // inputMulti = String(e.target.innerHTML)
-//         // inputMulti.setAttribute(number)
-//         if (value == 0) {
-//             value = e.target.innerHTML 
-//             currentAnswer.innerHTML = value
-//         }else {
-//             value = value + e.target.innerHTML
-//             currentAnswer.innerHTML = value
-//         }
-// })
-// })
-// let inputLable = 
-// document.getElementById("input-label")
-// operatorButtons.forEach((operator, index) => { 
-//     operator.addEventListener("click", (e) => {
-//         if (e.target.innerHTML == "+") {
-//             currentAnswer.innerHTML == e.target.innerHTML
-//             resultOne += value
-//             // value += "+"
-//             // value = "+"
-//             // this.currentAnswer = value
-//             // value.innerHTML = "+"
-//             // num1 = value
-//             // currentAnswer += value
-//             // resultOne.innerHTML = value
-//             // alert(resultOne)
-//             // console.log(index, resultOne,);
-//             console.log(operator);
-//         } else {
-//             value = "+"
-//         }
-//     } )
-// } )
-// operatorButtons.forEach((operator) => {
-//     operator.addEventListener("click", (e) => {
-//         if (e.target.innerHTML == "=") {
-//             resultOne += resultOne
-//             currentAnswer.innerHTML == e.target.innerHTML
-//         }
-//     } )
-// } )
+  calculator.updateDisplay();
+});

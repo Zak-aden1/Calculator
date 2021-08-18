@@ -4,43 +4,34 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Project</title>
     <link rel="stylesheet" href="./styles.css">
-    <title>Document</title>
 </head>
 <body>
-    <div class="container">
-        <div class="prev">
+    <div class="calculator-grid">
+        <div class="output">
+            <div class="previousOperation"></div>
+            <div class="currentOperation"></div>
         </div>
-        <div class="answer">
-        </div>
-        <div class="box1">
-        <button class="all-clear orange">AC</button>
-        <button class="del ">DEL</button>
-        <button class="divide orange">÷</button>
-        </div>
-        <div class="box2">
-            <button data-number class="seven number">7</button>
-            <button data-number class="eight number">8</button>
-            <button data-number class="nine number">9</button>
-            <button data-o class="times orange">*</button>
-        </div>
-        <div class="box3">
-            <button data-number class="four number">4</button>
-            <button data-number class="five number">5</button>
-            <button data-number class="six number">6</button>
-            <button class="minus orange">-</button>
-        </div>
-        <div class="box4">
-            <button data-number class="one number">1</button>
-            <button data-number class="two number">2</button>
-            <button data-number class="three number">3</button>
-            <button class="plus orange">+</button>
-        </div>
-        <div class="box5">
-            <button data-number class="zero number">0</button>
-            <button class="number">.</button>
-            <button class="equal orange">=</button>
-        </div>
+        <button class="span-two all-clear">AC</button>
+        <button class="delete">DEL</button>
+        <button class="operation">÷</button>
+        <button class="number">1</button>
+        <button class="number">2</button>
+        <button class="number">3</button>
+        <button class="operation">*</button>
+        <button class="number">4</button>
+        <button class="number">5</button>
+        <button class="number">6</button>
+        <button class="operation">+</button>
+        <button class="number">7</button>
+        <button class="number">8</button>
+        <button class="number">9</button>
+        <button class="operation">-</button>
+        <button class="number">.</button>
+        <button class="number">0</button>
+        <button class="span-two equals">=</button>
+
     </div>
 
     <script src="./app.js"></script>
