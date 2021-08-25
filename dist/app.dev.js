@@ -87,7 +87,7 @@ function () {
 
       this.currentOperand = results;
       this.operation = undefined;
-      this.previousOperand = '';
+      this.previousOperand = ''; // this.currentOperation = results
     }
   }, {
     key: "getDisplayNumber",
